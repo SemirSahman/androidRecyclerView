@@ -45,4 +45,8 @@ public class Person {
     public void setmDate(Date mDate) {
         this.mDate = mDate;
     }
+
+    public UUID getmId() {
+        return mId;
+    }
 }
