@@ -35,6 +35,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/add"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/byFirstName"
+            android:id="@+id/first_name_sort" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/byLastName"
+            android:id="@+id/last_name_sort" />
     </LinearLayout>
 
     <LinearLayout

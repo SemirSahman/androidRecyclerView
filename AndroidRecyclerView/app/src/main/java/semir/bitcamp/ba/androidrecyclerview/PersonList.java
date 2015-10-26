@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 public class PersonList {
 
-    private List<Person> personList;
+    private static List<Person> personList;
 
     public PersonList() {
         personList = new ArrayList<>();
@@ -26,8 +26,18 @@ public class PersonList {
         personList.add(new Person(firstName.toString(), lastName.toString()));
     }
 
-    public Person getPerson(int index) {
+    public static Person getPerson(int index) {
         return personList.get(index);
+    }
+
+    public int findPosition(Person person) {
+        for (int i = 0; i < personList.size(); i++) {
+            if (person.getmId().equals(personList.get(i).getmId())) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     public void deletePerson(UUID id) {
@@ -40,4 +50,7 @@ public class PersonList {
         }
     }
 
+    public static List<Person> getPersonList() {
+        return personList;
+    }
 }

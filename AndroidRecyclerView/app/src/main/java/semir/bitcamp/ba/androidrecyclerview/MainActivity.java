@@ -9,8 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mAddButton;
     private RecyclerView recyclerView;
     private PersonAdapter personAdapter;
+    private RadioButton mSortByFirstName;
+    private RadioButton mSortByLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +54,54 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        updateUI();
+
+        mSortByFirstName = (RadioButton) findViewById(R.id.first_name_sort);
+        mSortByLastName = (RadioButton) findViewById(R.id.last_name_sort);
+
+        mSortByFirstName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mSortByLastName.setChecked(false);
+                    Collections.sort(PersonList.getPersonList(), new Comparator<Person>() {
+                        @Override
+                        public int compare(Person p1, Person p2) {
+                            return p1.getmFirstName().compareTo(p2.getmFirstName());
+                        }
+                    });
+                    personAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        mSortByLastName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mSortByFirstName.setChecked(false);
+                    Collections.sort(PersonList.getPersonList(), new Comparator<Person>() {
+                        @Override
+                        public int compare(Person p1, Person p2) {
+                            return p1.getmLastName().compareTo(p2.getmLastName());
+                        }
+                    });
+                    personAdapter.notifyDataSetChanged();
+                }
+            }
+        });
 
     }
+
+    public void updateUI() {
+        PersonList people = (PersonList) PersonList.getPersonList();
+        List<Person> personList = people.getPersonList();
+
+        personAdapter = new PersonAdapter((PersonList) personList);
+        recyclerView.setAdapter(personAdapter);
+    }
+
 
     private class PersonHolder extends RecyclerView.ViewHolder {
         private TextView firstName;
@@ -98,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 
 }
